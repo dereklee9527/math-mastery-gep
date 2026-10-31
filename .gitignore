@@ -1,0 +1,24 @@
+# 截图/临时渲染产物
+shots/
+
+# 日志与系统文件
+*.log
+.DS_Store
+Thumbs.db
+
+# Python 缓存与临时脚本
+__pycache__/
+*.pyc
+_*.js
+_check_*.js
+_validate*.js
+_t.js
+
+# 公众号/百家号发布物料（不入库，仅本地使用）
+wechat-article.html
+wechat-article-2026-09-09.html
+content-wechat.html
+baijiahao-article.html
+upload_draft.js
+token_cache.json
+assets/wechat-group-qrcode.jpg
