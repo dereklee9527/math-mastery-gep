@@ -24,6 +24,67 @@
 | 相遇问题 | 求时间 / 路程 / 一速度 |
 | 追及问题 | 求时间 / 路程差 / 一速度 |
 
+### 小学 4–6 年级课内与奥数补全（10 法，已接入参数化生成器）
+
+针对课内主干与经典奥数题系的缺口补齐（对齐人教版 4–6 年级单元）：
+
+| 方法 | 年级 | 出题变体 |
+|---|---|---|
+| 分数应用·单位1 | 六年级 | 求用去/求剩余/求单位1/降价与增加分率/分率与约分 |
+| 因数倍数·最小公倍数 | 五年级 | GCF/LCM、发车间隔、剪最大正方形、约分、2·3·5 倍数判断 |
+| 简易方程 | 五年级 | 同加减/同乘除/两步方程/字母代入/列方程应用 |
+| 多边形的面积 | 五年级 | 长方形/平四/三角形/梯形/由周求面积/等积一半/面积比 |
+| 长方体与正方体 | 五年级 | 体积/表面积/无盖水箱/正方体拼接/单位换算/排水体积 |
+| 还原倒推问题 | 四年级 | 逆运算链/半多倒推/购物倒推/移多补少/验算习惯 |
+| 年龄问题 | 四年级 | 年龄差倍/年龄和推算/和差求年龄 |
+| 定义新运算 | 五年级 | 代入定义/解未知数/交换律判断/两步运算 |
+| 同余与物不知数 | 五年级 | 物不知数（韩信点兵）/同余做公倍/差1型/双条件排查/周期 |
+| 图形计数 | 六年级 | 数线段/数角/数矩形/对角线/握手问题/数正方形 |
+
+### 新加坡 P3–P6 英文版（MOE Syllabus 2021 · 可切换中英文）
+
+侧边栏新增「新加坡」学段：对照新加坡教育部《Primary Mathematics Syllabus (2021)》（2025 年 10 月更新版）的 P3–P6 学习内容（Foundation 周期不纳入），重点收录新加坡标志性讲法——CPA（具体→图像→抽象）+ **Bar Model 模型法**、Ratio、Percentage、Average、Rate。右上角**「中文 / English」按钮**一键切换整个新加坡模块的语言（含讲解与随机出题），与中文课内模块互不影响。全部 35 个条目都配有参数化出题器，可直接「每轮 8 题·随机」练习。
+
+| Module | Grade | Variants |
+|---|---|---|
+| Whole Numbers to 10 000 | P3 | place value / 4-digit operations / division with remainder / compare |
+| Equivalent Fractions & Simplest Form | P3 | equivalent / simplest form / compare unlike / related fractions |
+| Money in Decimal Notation | P3 | add / subtract / change / compare / multiply |
+| Length, Mass, Volume & Units | P3 | compound units / km↔m / kg↔g / ℓ↔ml |
+| Time: Seconds & 24-hour Clock | P3 | seconds / duration / start-finish / 12↔24-hour clock |
+| Area & Perimeter Basics | P3 | rectangle & square formulas / missing side |
+| Right Angles, Perpendicular & Parallel | P3 | angle type / perpendicular / parallel / right angles |
+| Bar Graphs | P3 | scales / totals / compare / most & least popular |
+| Whole Numbers to 100 000 | P4 | place value / rounding / compare / pattern |
+| Factors & Multiples | P4 | count factors / GCF / count multiples / first two common multiples |
+| Bar Model Method | P4 | part-whole / comparison / units / units × count / fraction with model |
+| Decimals (up to 3 d.p.) | P4 | 4 operations / compare / rounding / fraction ↔ decimal / money change |
+| Fractions: Mixed Numbers & Improper | P4 | mixed ↔ improper / fraction of a set / related fractions |
+| Area & Perimeter of Composite Figures | P4 | rectangle/square / missing dimension / composite figures |
+| Angles (Naming & Measuring) | P4 | angle type / turns / rectangle & square / equal parts |
+| Line Symmetry & Nets | P4 | lines of symmetry / mirror points / nets & faces |
+| Tables, Line Graphs & Pie Charts | P4 | complete a table / line graph / pie chart / totals |
+| Percentage | P5 | percent of / find the % / discount / GST / annual interest |
+| Speed (Rate Application) | P5 | D=S×T 三变式 / m-s 与 km/h 两套单位 / compare（最新大纲已并入 Rate 的应用） |
+| 10 Million & Order of Operations | P5 | numbers to 10 million / ×10·100·1000 / order of operations |
+| Fractions (Mixed Numbers & Multiplication) | P5 | mixed ± / fraction × whole / fraction × fraction / fraction of a set |
+| Decimals: ×10/100/1000 & Units | P5 | shift rules / decimal × ÷ / unit conversion |
+| Rate | P5 | rate / total / number of units / compare rates |
+| Area of Triangle | P5 | area formula / missing base or height / composite figures |
+| Volume of Cube & Cuboid | P5 | cube / cuboid / water in a tank / ℓ ↔ cm³ |
+| Angle Properties | P5 | straight line / at a point / vertically opposite / unknown angles |
+| Triangles & Special Quadrilaterals | P5 | triangle angle sum / parallelogram / rhombus / trapezium |
+| Ratio | P6 | simplify / shares / difference / equivalent / ratio ↔ fraction |
+| Fraction Division | P6 | fraction ÷ whole / fraction ÷ fraction / sharing |
+| Percentage: Find the Whole & Change | P6 | find the whole / increase / decrease / reverse |
+| Algebra | P6 | letters for unknowns / simplify / substitute / solve |
+| Circle: Area & Circumference | P6 | diameter & radius / circumference / area / semicircle & quarter circle |
+| Volume: Finding Edges | P6 | missing edge / height / base area |
+| Unknown Angles in Composite Figures | P6 | parallelogram / trapezium / ratio / quadrilateral / point |
+| Average | P6 | average / missing value / remove one / combine groups / change |
+
+> 年级归属按 2021 大纲：**Ratio 与 Average 属 P6**（旧版曾放在 P5）；**Speed 已从最新大纲移除**，保留为 Rate 的应用。条目 id 保持稳定，不影响已有学习进度。
+
 ### 覆盖的 15 个初中核心方法（已接入参数化生成器）
 
 | 方法 | 年级 | 出题变体 |
@@ -192,6 +253,12 @@ math-mastery/
 │   ├── qgen.js             # 参数化出题引擎（10 方法 qgen + 配图）
 │   ├── qgen_junior.js      # 初中方法参数化出题引擎（15 方法 qgen）
 │   ├── qgen_high.js        # 高中方法参数化出题引擎（24 方法 + 45 拓展专题 qgen）
+│   ├── qgen_elementary_extra.js # 小学 4–6 年级补全（10 法）+ GEP 前置 qgen
+│   ├── qgen_gep.js         # GEP/奥数模块参数化出题引擎
+│   ├── data_sg.js          # 新加坡 P3–P4 条目（英文 + 中文镜像）
+│   ├── data_sg2.js         # 新加坡 P5–P6 条目 + 推入 TECHNIQUES + 中英文切换
+│   ├── qgen_sg.js          # 新加坡 P3–P4 双语参数化出题引擎
+│   ├── qgen_sg2.js         # 新加坡 P5–P6 双语参数化出题引擎 + GEN 挂接
 │   ├── related-projects.js # 同类项目与资源推荐数据
 │   └── app.js              # 应用主逻辑（路由、渲染、状态）
 └── README.md

@@ -247,3 +247,7 @@ h3{font-size:15px;margin:14px 0 6px}
   .diag-stats{grid-template-columns:repeat(2,1fr)}
   .diag-mastery .n{font-size:26px}
 }
+
+/* ---- 语言切换按钮（新加坡模块 EN/中文） ---- */
+.lang-toggle { cursor: pointer; border: 1px solid #cbd5e1; border-radius: 8px; background: #fff; padding: 4px 10px; font-weight: 700; }
+.lang-toggle:hover { border-color: #2f6fed; color: #2f6fed; }

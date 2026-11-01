@@ -11,12 +11,13 @@
   function save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {} }
   let state = load(); // { [id]: { mastered:bool, weak:{ [qidx]:{fails,clear} } } }
   let pendingScrollTech = null; // 返回路径时，定位并高亮到此技巧节点
-  const STAGES = ["小学", "中学", "高中", "GEP拓展"];
+  const STAGES = ["小学", "中学", "高中", "GEP拓展", "新加坡"];
   const STAGE_DESC = {
     "小学": "1–6 年级 · 数与代数、图形、奥数启蒙",
     "中学": "7–9 年级 · 初中代数、几何、函数",
     "高中": "10–12 年级 · 高中数学核心与专题",
-    "GEP拓展": "独立模块 · GEP/奥数思维专项（计数、逻辑、数字谜、最坏保证、数阵图、时钟、博弈）——不依赖课内学段，可单独进入"
+    "GEP拓展": "独立模块 · GEP/奥数思维专项（计数、逻辑、数字谜、最坏保证、数阵图、时钟、博弈）——不依赖课内学段，可单独进入",
+    "新加坡": "Singapore P3–P6 · MOE Syllabus (2021) · English/中文 · CPA + Bar Model —— 英文版新加坡数学，与 GEP 模块互相独立"
   };
   let curFilter = { stage: null, grade: null }; // 当前侧边栏筛选（学段/年级）
 

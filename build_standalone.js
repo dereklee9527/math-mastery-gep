@@ -15,6 +15,7 @@ html = html.replace('<link rel="stylesheet" href="styles.css" />',
 const scripts = [
   'js/data.js', 'js/animations.js', 'js/figures.js', 'js/qgen.js',
   'js/qgen_junior.js', 'js/qgen_high.js', 'js/qgen_elementary_extra.js', 'js/qgen_gep.js',
+  'js/data_sg.js', 'js/data_sg2.js', 'js/qgen_sg.js', 'js/qgen_sg2.js',
   'js/related-projects.js', 'js/app.js'
 ];
 for (const rel of scripts) {

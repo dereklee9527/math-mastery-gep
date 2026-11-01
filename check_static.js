@@ -1,7 +1,8 @@
 global.window = globalThis; window.Fig = {};
-const base = "/root/math-mastery-gep";
+const path = require("path");
+const base = path.join(__dirname);
 require(base + "/js/data.js");
-["qgen.js","qgen_junior.js","qgen_high.js","qgen_elementary_extra.js","qgen_gep.js"].forEach(f => require(base + "/js/" + f));
+["qgen.js","qgen_junior.js","qgen_high.js","qgen_elementary_extra.js","qgen_gep.js","data_sg.js","data_sg2.js","qgen_sg.js","qgen_sg2.js"].forEach(f => require(base + "/js/" + f));
 const g = window.TECHNIQUES.filter(t => t.stage === "GEP拓展");
 
 // independent re-derivation of each static example

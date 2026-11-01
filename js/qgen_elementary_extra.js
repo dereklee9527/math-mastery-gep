@@ -1869,6 +1869,632 @@
       `设加入 x 克：${p}%x+${q}%×${b}=${m}%(x+${b})，(${p}−${m})x=(${m}−${q})×${b}，${p - m}x=${(m - q) * b}，x=${a}（克）。`, "十字交叉", null);
   }
 
+  /* ============================================================
+   * 小学 4–6 年级补全方法（10 法，对应 data.js 新增条目）
+   * ============================================================ */
+  function copr2big() { return pick([[2,3],[2,5],[2,7],[2,9],[3,4],[3,5],[3,7],[3,8],[4,5],[4,7],[4,9],[5,6],[5,7],[5,8],[5,9],[7,8],[7,9],[8,9]]); }
+  function digest(n) { let s = 0; const t = String(n); for (let i = 0; i < t.length; i++) s += +t[i]; return s; }
+  function fstr(p, q) { const g = gcd(p, q); return (p / g) + "/" + (q / g); }
+  function posOpts(ans, span) { return opts(ans, () => rnd(1, Math.max(3, Math.round(ans + span)))); }
+  const WEEK = ["一", "二", "三", "四", "五", "六", "日"];
+
+  /* ============ 29. frac1 分数应用·单位1（六年级） ============ */
+  function qFrac1() {
+    const c = pick([2, 3, 4, 5, 6, 8, 10]), type = rnd(0, 9);
+    if (type === 0) {
+      const b = rnd(1, c - 1), k = rnd(3, 25), T = c * k, u = k * b;
+      return Q(`一根 ${T} 米的长绳，用去它的 ${b}/${c}，用去了多少米？`, posOpts(u, T), "基础",
+        `单位“1”是全长 ${T} 米：${T}×${b}/${c}=${u}（米）。`, "单位1已知用乘法", null);
+    }
+    if (type === 1) {
+      const b = rnd(1, c - 1), k = rnd(3, 25), T = c * k, u = k * b, R = T - u;
+      return Q(`一堆 ${T} 吨的货物，第一天运走它的 ${b}/${c}，还剩多少吨？`, posOpts(R, T), "基础",
+        `用去 ${T}×${b}/${c}=${u}（吨），还剩 ${T}−${u}=${R}（吨）。`, "先乘再减", null);
+    }
+    if (type === 2) {
+      let cc = c; while (cc <= 3) cc = pick([4, 5, 6, 8, 10]);
+      const m = rnd(2, 15), X = 3 * m, ans = cc * m;
+      return Q(`一个数的 3/${cc} 是 ${X}，这个数是多少？`, posOpts(ans, 40), "进阶",
+        `单位“1”未知：${X}÷3/${cc}=${X}×${cc}/3=${ans}。`, "求单位1用除法", null);
+    }
+    if (type === 3) {
+      const b = rnd(1, c - 1), m = rnd(2, 15), R = (c - b) * m, W = c * m;
+      return Q(`一桶水用去它的 ${b}/${c} 后还剩 ${R} 千克，原来有多少千克？`, posOpts(W, 40), "易错",
+        `剩下的是 1−${b}/${c}=(${c}−${b})/${c}=${c - b}/${c}；单位1=${R}÷${c - b}/${c}=${W}（千克）。`, "括号分率", null);
+    }
+    if (type === 4) {
+      const b = rnd(1, c - 1), m = rnd(2, 15), plan = c * m, act = c * m + b * m;
+      return Q(`实际比计划多 ${b}/${c}，实际完成 ${act} 米，计划是多少米？`, posOpts(plan, 50), "拔高",
+        `实际是计划的 1+${b}/${c}=(${c}+${b})/${c}：${act}÷(${c + b}/${c})=${plan}（米）。`, "増减分率", null);
+    }
+    if (type === 5) {
+      let cc = c; while (cc <= 4) cc = pick([5, 6, 8, 10]);
+      const k2 = rnd(2, 12), A = 4 * k2, E = cc * k2;
+      return Q(`甲班人数是乙班的 4/${cc}，甲班 ${A} 人，乙班多少人？`, posOpts(E, 30), "基础",
+        `单位“1”是乙班：${A}÷4/${cc}=${A}×${cc}/4=${E}（人）。`, "求单位1", null);
+    }
+    if (type === 6) {
+      const b = rnd(1, c - 1), m = rnd(2, 12), S = c * m, now = c * m - b * m;
+      return Q(`一件商品降价 ${b}/${c} 后是 ${now} 元，原价是多少元？`, posOpts(S, 40), "易错",
+        `现价是原价的 1−${b}/${c}=(${c}−${b})/${c}:${now}÷(${c - b}/${c})=${S}（元）。`, "降价分率", null);
+    }
+    if (type === 7) {
+      const k2 = rnd(3, 30), A = rnd(1, k2 - 1), g0 = gcd(A, k2), estr = fstr(A, k2);
+      return Q(`一段 ${k2} 千米的路，走了 ${A} 千米，走了全长的几分之几？`,
+        cats(estr, [`${A}/${k2}`, `${A}/${k2 + 1}`, `${A + 1}/${k2}`, fstr(A, k2 + 1)], 4), "进阶",
+        `走了 ${A}/${k2}，分子分母除以最大公因数 ${g0}，得 ${estr}。`, "分率与约分", null);
+    }
+    if (type === 8) {
+      const b = rnd(Math.ceil((c + 1) / 2), c - 1), k = rnd(2, 15), T = c * k, ch = k * (2 * b - c);
+      return Q(`一批 ${T} 吨的货，运走它的 ${b}/${c} 后，运走的比剩下的多多少吨？`, posOpts(ch, 30), "拔高",
+        `运走 ${T}×${b}/${c}=${k * b}（吨），剩 ${T}−${k * b}=${k * (c - b)}（吨），差=${ch}（吨）。`, "两次分率", null);
+    }
+    return Q("“甲的钱是乙的 3/5”中，单位“1”是？", cats("乙的钱", ["甲的钱", "两人的总钱数", "3/5"], 4), "基础",
+      "“的”前面的份额说的是乙：分数描述的对象是单位1，即乙的钱。", "找单位1", null);
+  }
+
+  /* ============ 30. factorlcm 因数倍数·最小公倍数（五年级） ============ */
+  function qFactorlcm() {
+    const type = rnd(0, 11);
+    if (type === 0) {
+      const cp = copr2big(), g = pick([2, 3, 4, 5, 7, 9, 12]), a = g * cp[0], b = g * cp[1];
+      return Q(`${a} 和 ${b} 的最大公因数是多少？`, posOpts(g, Math.max(12, g)), "基础",
+        `${a}=${g}×${cp[0]}，${b}=${g}×${cp[1]}，${cp[0]} 与 ${cp[1]} 互质，公有的只有 ${g}，故最大公因数=${g}。`, "GCF", null);
+    }
+    if (type === 1) {
+      const cp = copr2big(), g = pick([2, 3, 5, 6, 7, 10, 11]), a = g * cp[0], b = g * cp[1], L = g * cp[0] * cp[1];
+      return Q(`${a} 和 ${b} 的最小公倍数是多少？`, posOpts(L, 30), "基础",
+        `${a}=${g}×${cp[0]}，${b}=${g}×${cp[1]}，公共的 ${g} 与独有的 ${cp[0]}×${cp[1]} 都乘起来：${g}×${cp[0]}×${cp[1]}=${L}。`, "LCM", null);
+    }
+    if (type === 2) {
+      const P = pick([[4, 6], [6, 9], [8, 12], [9, 12], [10, 15], [12, 18], [15, 20]]), L = lcm(P[0], P[1]);
+      return Q(`两路公交车同时发车，甲路每 ${P[0]} 分钟一班，乙路每 ${P[1]} 分钟一班。下一次两路车同时发车是多少分钟后？`,
+        posOpts(L, 25), "进阶",
+        `同时再一次要用两段时间的最小公倍数：LCM(${P[0]},${P[1]})=${L} 分钟。`, "LCM 应用", null);
+    }
+    if (type === 3) {
+      const cp = copr2big(), g = pick([2, 3, 4, 6, 8, 9, 12]), L = g * cp[1], W = g * cp[0];
+      return Q(`一张长 ${L} 厘米、宽 ${W} 厘米的长方形纸，剪成同样大小的正方形且不剩纸，正方形要尽量大。它的边长是多少厘米？`,
+        posOpts(g, Math.max(10, g)), "进阶",
+        `边长要同时整除 ${L} 和 ${W}，最大取最大公因数：GCF(${L},${W})=${g} 厘米。`, "GCF 应用", null);
+    }
+    if (type === 4) {
+      const N = pick([12, 15, 18, 20, 24, 30, 36]), ds = divs(N), ans = ds.length;
+      return Q(`${N} 的因数一共有多少个？`, posOpts(ans, 8), "基础",
+        `成对找：${ds.join("、")}，共 ${ans} 个。`, "因数个数", null);
+    }
+    if (type === 5) {
+      const p = pick([2, 3, 5, 7]), q = pick([11, 13, 17, 19]), N = p * q;
+      return Q(`${N} 的最小质因数是多少？`, opts(p, () => pick([2, 3, 5, 7, 11, 13])), "进阶",
+        `${N}=${p}×${q}，两个质因数中较小的是 ${p}。`, "质因数", null);
+    }
+    if (type === 6) {
+      const n0 = 3 * rnd(4, 30), cand = [n0 - 2, n0 - 1, n0, n0 + 1], so = cand.filter(x => digest(x) % 3 === 0)[0];
+      return Q(`下面四个数中，是 3 的倍数的是？`,
+        cats(String(so), cand.filter(x => x !== so).map(String), 4), "基础",
+        `${so} 的数字和是 ${digest(so)}，${digest(so)} 是 3 的倍数，所以 ${so} 是 3 的倍数。`, "3 的倍数", null);
+    }
+    if (type === 7) {
+      const cp = copr2big(), g = pick([2, 3, 4, 5, 6, 9, 10, 12]), a = g * cp[0], b = g * cp[1];
+      return Q(`把 ${a} 支铅笔和 ${b} 块橡皮分给尽量多的小朋友，每人得到的铅笔数相同、橡皮数也相同且正好分完。最多可以分给几位小朋友？`,
+        posOpts(g, Math.max(12, g)), "进阶",
+        `人数要同时整除 ${a} 和 ${b}，最大即 GCF=${g} 位，每人得 ${cp[0]} 支铅笔、${cp[1]} 块橡皮。`, "GCF 应用", null);
+    }
+    if (type === 8) {
+      const d = pick([5, 6, 7, 8, 9, 11, 12]), r = rnd(1, d - 1);
+      let x = 10; while (x % d !== r) x++;
+      return Q(`一个数除以 ${d} 余 ${r}，最小的两位数是多少？`, posOpts(x, 15), "基础",
+        `两位数只能从 10 一个个看：${x}÷${d}=${Math.floor(x / d)}…${x % d}，最小的是 ${x}。`, "带余除法", null);
+    }
+    if (type === 9) {
+      const P = pick([[4, 6], [6, 10], [8, 12], [5, 10], [6, 15]]), L = lcm(P[0], P[1]);
+      return Q(`同时是 ${P[0]} 和 ${P[1]} 的倍数的最小两位数是多少？`, posOpts(L, 12), "易错",
+        `即求最小公倍数：LCM(${P[0]},${P[1]})=${L}，它就是最小的两位数。`, "LCM", null);
+    }
+    if (type === 10) {
+      const cp = copr2big(), g = pick([2, 3, 4, 5, 6, 9, 10]), A = g * cp[0], B = g * cp[1], estr = fstr(A, B);
+      return Q(`把分数 ${A}/${B} 约成最简分数是？`,
+        cats(estr, [`${A}/${B}`, `${cp[0]}/${cp[1] + 1}`, `${cp[0] + 1}/${cp[1]}`, `${A}/${cp[1]}`], 4), "基础",
+        `分子分母同除以 ${g}：${A}÷${g}=${cp[0]}，${B}÷${g}=${cp[1]}，得 ${estr}。`, "约分", null);
+    }
+    const askL = rnd(0, 1);
+    return Q(`两个不为 0 的整数的${askL ? "公倍数" : "公因数"}的个数是？`,
+      cats(askL ? "无限的" : "有限的", [askL ? "有限的" : "无限的"], 2), "基础",
+      askL ? "本身不断乘 2、3、4…得到的公倍数越来越大、越来越多，公倍数无限的。" : "因数最大只能到本身，个数是有限的。", "公因/公倍性质", null);
+  }
+
+  /* ============ 31. simpleeq 简易方程（五年级） ============ */
+  function qSimpleEq() {
+    const type = rnd(0, 11), u = rnd(2, 15);
+    if (type === 0) {
+      const a = rnd(1, 20), b = a + u;
+      return Q(`解方程：x + ${a} = ${b}。x = ？`, posOpts(u, 25), "基础",
+        `两边同减 ${a}：x = ${b} − ${a} = ${u}。`, "同加减", null);
+    }
+    if (type === 1) {
+      const a = rnd(1, u - 1), b = u - a;
+      return Q(`解方程：x − ${a} = ${b}。x = ？`, posOpts(u, 25), "基础",
+        `两边同加 ${a}：x = ${b} + ${a} = ${u}。`, "同加减", null);
+    }
+    if (type === 2) {
+      const b = rnd(1, 20), a = u + b;
+      return Q(`解方程：${a} − x = ${b}。x = ？`, posOpts(u, 25), "基础",
+        `把 x 移到右边、${b} 移到左边：x = ${a} − ${b} = ${u}。`, "移项", null);
+    }
+    if (type === 3) {
+      const a = pick([2, 3, 4, 5, 6, 7, 8, 9]), b = a * u;
+      return Q(`解方程：${a}x = ${b}。x = ？`, posOpts(u, 20), "基础",
+        `两边同÷${a}：x = ${b} ÷ ${a} = ${u}。`, "同乘除", null);
+    }
+    if (type === 4) {
+      const a = pick([2, 3, 5, 6, 8, 10]), b = rnd(2, 12), x = a * b;
+      return Q(`解方程：x ÷ ${a} = ${b}。x = ？`, posOpts(x, 30), "进阶",
+        `两边同×${a}：x = ${b} × ${a} = ${x}。`, "同乘除", null);
+    }
+    if (type === 5) {
+      const a = pick([2, 3, 4]), r = rnd(1, 20), b = a * u + r;
+      return Q(`解方程：${a}x + ${r} = ${b}。x = ？`, posOpts(u, 20), "进阶",
+        `两边同减 ${r}：${a}x = ${b} − ${r} = ${a * u}；再÷${a}：x = ${u}。`, "两步方程", null);
+    }
+    if (type === 6) {
+      const x0 = rnd(2, 12), a = rnd(2, 5), c = rnd(2, 6), v = (a + c) * x0;
+      return Q(`已知 x = ${x0}，式子 ${a}x + ${c}x 的值是？`, posOpts(v, 30), "基础",
+        `合并同类项：(${a}+${c})x=${a + c}x；代入 x=${x0}：${a + c}×${x0}=${v}。`, "合并同类项", null);
+    }
+    if (type === 7) {
+      const s = rnd(2, 12), t = rnd(1, 20), b = 2 * s - t;
+      return Q(`解方程：2x − ${t} = ${b}。x = ？`, posOpts(s, 15), "进阶",
+        `两边同加 ${t}：2x = ${b} + ${t} = ${2 * s}；再÷2：x = ${s}。`, "两步方程", null);
+    }
+    if (type === 8) {
+      const x0 = rnd(2, 12), a = rnd(2, 6), r = rnd(1, 15), v = a * x0 + r;
+      return Q(`已知 x = ${x0}，代数式 ${a}x + ${r} 的值是？`, posOpts(v, 30), "基础",
+        `把 x=${x0} 代入：${a}×${x0}+${r}=${a * x0}+${r}=${v}。`, "代入求值", null);
+    }
+    if (type === 9) {
+      return Q("下列各式中，是方程的是？",
+        cats("x+6=13", ["x+6>13", "6+7=13", "x+6", "x+6≈13"], 4), "易错",
+        "方程=含未知数+等式：x+6=13 两个条件都满足；x+6 不是等式、6+7=13 无未知数、x+6>13 是不等式。", "方程定义", null);
+    }
+    if (type === 10) {
+      const u2 = rnd(3, 12), n = rnd(2, 8), d = rnd(1, 20), total = n * u2 + d;
+      return Q(`小红付了 ${total} 元买了 ${n} 支同样的笔，还找回 ${d} 元。每支笔多少元？`, posOpts(u2, 15), "进阶",
+        `设每支 x 元：${n}x+${d}=${total}，${n}x=${total}−${d}=${n * u2}，x=${u2}（元）。检验：${n}×${u2}+${d}=${total} ✓。`, "列方程应用", null);
+    }
+    const u2 = rnd(2, 12), d = rnd(1, 12), a = u2 + d;
+    return Q(`果园里桃树比梨树多 ${d} 棵，桃树有 ${a} 棵，梨树多少棵？`, posOpts(u2, 25), "基础",
+      `设梨树 x 棵：x+${d}=${a}，x=${a}−${d}=${u2}（棵）。`, "列方程应用", null);
+  }
+
+  /* ============ 32. polyarea 多边形的面积（五年级） ============ */
+  function qPolyarea() {
+    const type = rnd(0, 11);
+    if (type === 0) {
+      const l = rnd(6, 25), w = rnd(3, 20), v = l * w;
+      return Q(`长方形长 ${l} 分米、宽 ${w} 分米，面积是多少？`, posOpts(v, 60), "基础",
+        `S=${l}×${w}=${v} 平方分米。`, "长方形", null);
+    }
+    if (type === 1) {
+      const a = rnd(3, 20), v = a * a;
+      return Q(`正方形边长 ${a} 米，面积是多少？`, posOpts(v, 60), "基础",
+        `S=${a}×${a}=${v} 平方米。`, "正方形", null);
+    }
+    if (type === 2) {
+      const a = rnd(4, 20), h = rnd(3, 15), v = a * h;
+      return Q(`平行四边形底 ${a} 分米、高 ${h} 分米，面积是多少？`, posOpts(v, 50), "基础",
+        `S=底×高=${a}×${h}=${v} 平方分米。`, "平行四边形", null);
+    }
+    if (type === 3) {
+      let a = rnd(4, 20), h = rnd(2, 12); if ((a * h) % 2 === 1) a++;
+      const v = a * h / 2;
+      return Q(`三角形底 ${a} 厘米、高 ${h} 厘米，面积是多少？`, posOpts(v, 40), "基础",
+        `S=${a}×${h}÷2=${v} 平方厘米。`, "三角形", null);
+    }
+    if (type === 4) {
+      let a = rnd(2, 10), b = rnd(11, 25), h = rnd(4, 12); if (((a + b) * h) % 2 === 1) h++;
+      const v = (a + b) * h / 2;
+      return Q(`梯形上底 ${a} 米、下底 ${b} 米、高 ${h} 米，面积是多少？`, posOpts(v, 50), "进阶",
+        `S=(${a}+${b})×${h}÷2=${a + b}×${h}÷2=${v} 平方米。`, "梯形", null);
+    }
+    if (type === 5) {
+      const h = rnd(3, 12), v = h * rnd(4, 15), a = v / h;
+      return Q(`一个平行四边形面积是 ${v} 平方分米，高 ${h} 分米，底是多少分米？`, posOpts(a, 15), "进阶",
+        `底=面积÷高=${v}÷${h}=${a} 分米。`, "求底", null);
+    }
+    if (type === 6) {
+      const L = rnd(8, 16), W = rnd(5, 12), l2 = rnd(2, L - 3), w2 = rnd(2, W - 2), v = L * W - l2 * w2;
+      return Q(`长 ${L} 米、宽 ${W} 米的花园中间挖走一块长 ${l2} 米、宽 ${w2} 米的花坛，剩下多少平方米？`,
+        posOpts(v, 40), "进阶",
+        `大 ${L}×${W}=${L * W}，去掉 ${l2}×${w2}=${l2 * w2}，剩 ${v} 平方米。`, "组合图形", null);
+    }
+    if (type === 7) {
+      const l = rnd(5, 20), w = rnd(3, 15), p = 2 * (l + w), v = l * w;
+      return Q(`长方形周长 ${p} 米，其中长 ${l} 米，面积是多少？`, posOpts(v, 40), "进阶",
+        `宽=${p}÷2−${l}=${w}（米）；S=${l}×${w}=${v} 平方米。`, "由周求面积", null);
+    }
+    if (type === 8) {
+      const a = rnd(4, 15), h = rnd(2, 12), pd = a * h, tri = pd / 2;
+      return Q(`平行四边形底 ${a} 分米、高 ${h} 分米，同底等高的三角形面积是多少？`, posOpts(tri, 40), "进阶",
+        `平四=${a}×${h}=${pd}；同底等高三角形是它的一半：${pd}÷2=${tri} 平方分米。`, "等积一半", null);
+    }
+    if (type === 9) {
+      const m = rnd(2, 5), su = rnd(3, 10), sw = rnd(2, 9), k = m * m;
+      return Q(`把长方形的长和宽各扩大 ${m} 倍，面积扩大到原来的几倍？`, posOpts(k, 15), "进阶",
+        `长宽各×${m}：面积=长×${m}×宽×${m}=原面积×${m}×${m}=${k} 倍。`, "面积比", null);
+    }
+    if (type === 10) {
+      let a = rnd(2, 10), b = rnd(11, 25), h = rnd(4, 12); if (((a + b) * h) % 2 === 1) h++;
+      const S = (a + b) * h / 2;
+      return Q(`梯形面积 ${S} 平方米，上底 ${a} 米、下底 ${b} 米，高是多少？`, posOpts(h, 10), "拔高",
+        `高=2×面积÷(上底+下底)=${2 * S}÷${a + b}=${h} 米。`, "求高", null);
+    }
+    const l = rnd(4, 20), w = rnd(2, 15), v = l * w;
+    return Q(`长方形长 ${l} 厘米、宽 ${w} 厘米，面积是多少？`, posOpts(v, 40), "基础",
+      `S=${l}×${w}=${v} 平方厘米。`, "长方形", null);
+  }
+
+  /* ============ 33. cuboid 长方体与正方体（五年级） ============ */
+  function qCuboid() {
+    const type = rnd(0, 11);
+    if (type === 0) {
+      const a = rnd(2, 12), v = a * a * a;
+      return Q(`正方体棱长 ${a} 厘米，体积是多少？`, posOpts(v, 80), "基础",
+        `V=${a}³=${a}×${a}×${a}=${v} 立方厘米。`, "正方体体积", null);
+    }
+    if (type === 1) {
+      const a = rnd(2, 12), v = 6 * a * a;
+      return Q(`正方体棱长 ${a} 分米，表面积是多少？`, posOpts(v, 80), "基础",
+        `S=6×${a}²=6×${a * a}=${v} 平方分米。`, "正方体表面积", null);
+    }
+    if (type === 2) {
+      const a = rnd(2, 12), b = rnd(2, 10), c = rnd(2, 8), v = a * b * c;
+      return Q(`长方体长 ${a} 厘米、宽 ${b} 厘米、高 ${c} 厘米，体积是多少？`, posOpts(v, 80), "基础",
+        `V=${a}×${b}×${c}=${v} 立方厘米。`, "长方体体积", null);
+    }
+    if (type === 3) {
+      const a = rnd(2, 12), b = rnd(2, 10), c = rnd(2, 8), ab = a * b, ac = a * c, bc = b * c, v = 2 * (ab + ac + bc);
+      return Q(`长方体长 ${a} 厘米、宽 ${b} 厘米、高 ${c} 厘米，表面积是多少？`, posOpts(v, 80), "进阶",
+        `2×(${a}×${b}+${a}×${c}+${b}×${c})=2×(${ab}+${ac}+${bc})=${v} 平方厘米。`, "长方体表面积", null);
+    }
+    if (type === 4) {
+      const k = rnd(1, 9), v = k * 1000;
+      return Q(`${k} 立方米 = 多少立方分米？`, posOpts(v, 900), "基础",
+        `进率 1000：1 立方米=1000 立方分米，${k}×1000=${v}。`, "体积单位", null);
+    }
+    if (type === 5) {
+      const a = pick([3, 4, 5, 6, 9, 10, 12]);
+      return Q(`一个正方体的体积是 ${a * a * a} 立方厘米，它的棱长是多少？`, posOpts(a, 8), "进阶",
+        `找谁的立方是 ${a * a * a}:${a}×${a}×${a}=${a * a * a}，棱长是 ${a} 厘米。`, "由体积求棱长", null);
+    }
+    if (type === 6) {
+      const a = rnd(8, 20), b = rnd(5, a - 2), h = rnd(3, 12), v = a * b + 2 * (a + b) * h;
+      return Q(`做一个长 ${a} 分米、宽 ${b} 分米、深 ${h} 分米的无盖长方体水箱，至少要用多少平方分米的铁皮？`,
+        posOpts(v, 80), "拔高",
+        `无盖只有 5 个面：底 ${a}×${b}=${a * b}；四侧 2×(${a}+${b})×${h}=${2 * (a + b) * h}；共 ${v} 平方分米。`, "无盖水箱", null);
+    }
+    if (type === 7) {
+      const a = rnd(1, 12), b = rnd(1, 10), c = rnd(1, 8), v = 4 * (a + b + c);
+      return Q(`长方体长 ${a} 厘米、宽 ${b} 厘米、高 ${c} 厘米，棱长总和是多少？`, posOpts(v, 40), "基础",
+        `长、宽、高各 4 条：4×(${a}+${b}+${c})=${v} 厘米。`, "棱长总和", null);
+    }
+    if (type === 8) {
+      const s = pick([2, 3, 5]), n = rnd(2, 6), v = 4 * n * s * s + 2 * s * s;
+      return Q(`${n} 个棱长 ${s} 厘米的正方体排成一排拼成长方体，表面积是多少平方厘米？`,
+        posOpts(v, 80), "拔高",
+        `拼成长=${n * s}、宽=${s}、高=${s}:2×(${n * s}×${s}+${n * s}×${s}+${s}×${s})=2×(${n * s * s}+${n * s * s}+${s * s})=${v} 平方厘米。`, "拼接表面积", null);
+    }
+    if (type === 9) {
+      const a = rnd(15, 40), b = rnd(10, a - 5), h2 = rnd(1, 5), v = a * b * h2;
+      return Q(`长 ${a} 厘米、宽 ${b} 厘米的鱼缸放进一块石头后，水面上升 ${h2} 厘米。石头的体积是多少？`,
+        posOpts(v, 200), "进阶",
+        `石头体积=上升的水:${a}×${b}×${h2}=${v} 立方厘米。`, "排水体积", null);
+    }
+    if (type === 10) {
+      const k = rnd(1, 9), v = k * 1000;
+      return Q(`${k} 升 = 多少毫升？`, posOpts(v, 900), "基础",
+        `1 升=1000 毫升:${k}×1000=${v} 毫升（1 升也=1 立方分米）。`, "容积单位", null);
+    }
+    const a = rnd(4, 12), b = rnd(2, 6), h = rnd(2, 8), V = a * b * h;
+    return Q(`一个长方体体积 ${V} 立方厘米，长 ${a} 厘米、宽 ${b} 厘米，高是多少？`, posOpts(h, 8), "进阶",
+      `高=V÷长÷宽=${V}÷${a}÷${b}=${h} 厘米。`, "由体积求高", null);
+  }
+
+  /* ============ 34. revert 还原倒推（四年级） ============ */
+  function qRevert() {
+    const type = rnd(0, 10);
+    if (type === 0) {
+      const x = rnd(2, 12), a = rnd(2, 9), b = rnd(1, 9), c = x * a + b;
+      return Q(`一个数乘 ${a} 再加 ${b} 等于 ${c}，这个数是多少？`, posOpts(x, 30), "基础",
+        `倒推：${c} − ${b} = ${x * a}，${x * a} ÷ ${a} = ${x}。`, "先减再除", null);
+    }
+    if (type === 1) {
+      const x = rnd(2, 12), a = rnd(1, 9), b = pick([2, 3, 4]), c = (x + a) * b;
+      return Q(`一个数加上 ${a} 后再乘 ${b} 等于 ${c}，这个数是多少？`, posOpts(x, 30), "基础",
+        `倒推：${c} ÷ ${b} = ${x + a}，${x + a} − ${a} = ${x}。`, "先除再减", null);
+    }
+    if (type === 2) {
+      const c2 = rnd(2, 20), b = pick([2, 3, 4, 5]), a = rnd(1, 10), x = a + b * c2;
+      return Q(`一个数减去 ${a} 后再除以 ${b} 等于 ${c2}，这个数是多少？`, posOpts(x, 60), "进阶",
+        `倒推：${c2} × ${b} = ${b * c2}，${b * c2} + ${a} = ${x}。`, "先乘再加", null);
+    }
+    if (type === 3) {
+      const x = rnd(2, 12), b = pick([2, 3, 4, 5]), c = rnd(3, 12), base = c * b;
+      let a = rnd(1, Math.min(9, base - x - 1)); if (a < 1) a = 1;
+      const X = base - a;
+      return Q(`一个数加上 ${a} 后再除以 ${b} 等于 ${c}，这个数是多少？`, posOpts(X, 30), "进阶",
+        `倒推：${c} × ${b} = ${base}，${base} − ${a} = ${X}。`, "先乘再减", null);
+    }
+    if (type === 4) {
+      const n = rnd(2, 8), a = rnd(2, 15), r = rnd(1, 20), m = a * n + r;
+      return Q(`小明买了 ${n} 支单价 ${a} 元的笔，还剩下 ${r} 元。他原来带了多少钱？`, posOpts(m, 50), "基础",
+        `倒推：先加回花掉的 ${n}×${a}=${a * n}，再加剩下的 ${r}:${m} 元。`, "购物倒推", null);
+    }
+    if (type === 5) {
+      const r = rnd(2, 15), k = rnd(1, 5), orig = 2 * (r + k);
+      return Q(`一堆鸡蛋，取走一半还多 ${k} 个后剩 ${r} 个，原来有多少个？`, posOpts(orig, 30), "易错",
+        `最后剩 ${r} 个，先补回“多取的 ${k} 个”:这堆的一半是 ${r + k}，原有 ${r + k}×2=${orig} 个。`, "半多倒推", null);
+    }
+    if (type === 6) {
+      const a0 = rnd(2, 6), d = 2 * a0;
+      return Q(`甲给乙 ${a0} 本书后，两人的书正好一样多。原来甲比乙多几本书？`, posOpts(d, 20), "易错",
+        `甲减少 ${a0} 本、乙增加 ${a0} 本就打平，一次移多补少相差 2×${a0}：原来差 = 2×${a0}=${d} 本。`, "移多补少", null);
+    }
+    if (type === 7) {
+      const x = rnd(2, 9), a = rnd(3, 7), b = rnd(1, x * a - 1), c = x * a - b;
+      return Q(`一个数乘 ${a} 再减 ${b} 等于 ${c}，这个数是多少？`, posOpts(x, 30), "进阶",
+        `倒推:${c} + ${b} = ${x * a},${x * a} ÷ ${a} = ${x}。`, "先加再除", null);
+    }
+    if (type === 8) {
+      const k = rnd(2, 12), b = pick([2, 3, 4, 5]), a = rnd(1, 9), c = b * k, x = a + k;
+      return Q(`一个数减去 ${a}，再乘 ${b}，等于 ${c}，这个数是多少？`, posOpts(x, 30), "拔高",
+        `倒推:${c} ÷ ${b} = ${k},${k} + ${a} = ${x}。`, "逆运算两步", null);
+    }
+    if (type === 9) {
+      const c = rnd(2, 30), t = rnd(0, 12), a = t + rnd(1, 15), b = a - t, x = c + t;
+      return Q(`一个数减去 ${a} 再加上 ${b} 等于 ${c}，这个数是多少？`, posOpts(x, 40), "进阶",
+        `减 ${a} 再加 ${b} 等于净减 ${a - b}=${t}:原数 = ${c} + ${t} = ${x}。`, "变化净值", null);
+    }
+    return Q("用倒推法算出原来的数之后，最稳妥的下一步是？",
+      cats("按原过程正推验算", ["直接写答案", "再倒推一次", "换一道题"], 4), "基础",
+      "倒推后要把结果按题里的原过程顺算一遍，对得上才算解对，这叫验算。", "验算习惯", null);
+  }
+
+  /* ============ 35. age 年龄问题（四年级） ============ */
+  function qAge() {
+    const type = rnd(0, 11);
+    if (type === 0) {
+      const m = rnd(3, 12), t = rnd(1, 6), k = pick([2, 3]), big = k * m + t, small = m + t;
+      return Q(`哥哥今年 ${big} 岁，弟弟今年 ${small} 岁。几年前哥哥的年龄正好是弟弟的 ${k} 倍？`,
+        posOpts(t, 8), "进阶",
+        `年龄差不变：${big}−${small}=${(k - 1) * m}。${k} 倍时弟弟=${(k - 1) * m}÷(${k}−1)=${m} 岁，${small}−${m}=${t}，即 ${t} 年前。`, "年龄差倍", null);
+    }
+    if (type === 1) {
+      const n = rnd(1, 10), b0 = rnd(3, 15), a0 = 2 * b0 + n;
+      return Q(`哥哥今年 ${a0} 岁，弟弟今年 ${b0} 岁。几年后哥哥的年龄正好是弟弟的 2 倍？`,
+        posOpts(n, 8), "进阶",
+        `年龄差=${a0 - b0}=${b0 + n} 不变；2 倍时弟弟=差÷(2−1)=${b0 + n} 岁，即 ${n} 年后。`, "年龄差倍", null);
+    }
+    if (type === 2) {
+      const n0 = pick([3, 4, 5]), S = rnd(60, 120), k = rnd(2, 8), v = S + n0 * k;
+      return Q(`一家 ${n0} 口今年年龄之和是 ${S} 岁，${k} 年后全家年龄之和是多少岁？`,
+        posOpts(v, 40), "基础",
+        `${n0} 口人每人每年长 1 岁，全家每年共长 ${n0} 岁：${S}+${n0}×${k}=${v} 岁。`, "年龄和推算", null);
+    }
+    if (type === 3) {
+      const F = rnd(28, 45), S = rnd(5, 15), n = rnd(1, 10), T = F + S + 2 * n;
+      return Q(`爸爸今年 ${F} 岁，小明今年 ${S} 岁。几年后父子的年龄和是 ${T} 岁？`,
+        posOpts(n, 8), "进阶",
+        `现在和=${F}+${S}=${F + S}；每年两人共增 2 岁：(${T}−${F + S})÷2=${n} 年。`, "年龄和推算", null);
+    }
+    if (type === 4) {
+      const k = pick([2, 3, 4, 5]), S0 = rnd(6, 16), F0 = k * S0;
+      return Q(`甲今年 ${F0} 岁，正好是乙年龄的 ${k} 倍。乙今年多少岁？`,
+        posOpts(S0, 12), "基础", `乙=${F0}÷${k}=${S0} 岁。`, "倍数年龄", null);
+    }
+    if (type === 5) {
+      const d = rnd(5, 30), a = rnd(20, 60), b = a - d;
+      return Q(`姐姐今年 ${a} 岁，比妹妹大 ${d} 岁。妹妹今年多少岁？`, posOpts(b, 15), "基础",
+        `妹妹=${a}−${d}=${b} 岁。年龄差不变是这类题的关键性质。`, "年龄差", null);
+    }
+    if (type === 6) {
+      const S = rnd(60, 120), k = rnd(2, 8), v = S - 3 * k;
+      return Q(`一家三口今年年龄之和是 ${S} 岁，${k} 年前全家年龄之和是多少岁？`,
+        posOpts(v, 40), "进阶",
+        `${k} 年前每人少 ${k} 岁，共少 3×${k}=${3 * k}:${S}−${3 * k}=${v} 岁。`, "年龄和回推", null);
+    }
+    if (type === 7) {
+      const S0 = rnd(6, 15), n = rnd(2, 8), dad = 3 * S0 + n, son = S0 + n;
+      return Q(`爸爸今年 ${dad} 岁，儿子今年 ${son} 岁。几年后爸爸的年龄是儿子的 3 倍？`,
+        posOpts(n, 8), "拔高",
+        `年龄差=${dad - son}=${2 * S0} 不变；3 倍时儿子=${2 * S0}÷(3−1)=${S0} 岁，还需 ${n} 年。`, "年龄差倍", null);
+    }
+    if (type === 8) {
+      const b = rnd(5, 30), d = rnd(2, 20), a = b + d, S = a + b;
+      return Q(`甲乙两人年龄之和是 ${S} 岁，甲比乙大 ${d} 岁。甲今年多少岁？`,
+        posOpts(a, 20), "进阶",
+        `和差公式：甲=(和+差)÷2=(${S}+${d})÷2=${a} 岁；乙=${b} 岁。`, "和差年龄", null);
+    }
+    if (type === 9) {
+      const b = rnd(3, 12), ans = b + 1;
+      return Q(`弟弟去年 ${b} 岁，弟弟今年多少岁？`, posOpts(ans, 5), "基础",
+        `每过一年长 1 岁：${b}+1=${ans} 岁。`, "区分年份", null);
+    }
+    if (type === 10) {
+      const n0 = pick([3, 4, 5]), avg = rnd(20, 35), S = n0 * avg;
+      return Q(`一家 ${n0} 口人年龄之和是 ${S} 岁，平均年龄是多少岁？`, posOpts(avg, 10), "基础",
+        `平均=${S}÷${n0}=${avg} 岁。`, "平均年龄", null);
+    }
+    const m = rnd(3, 12), t = rnd(1, 6), kk = pick([2, 3]), small = m + t, big = kk * m + t;
+    return Q(`哥哥今年 ${big} 岁，弟弟今年 ${small} 岁。几年前哥哥的年龄正好是弟弟的 ${kk} 倍？`,
+      posOpts(t, 8), "进阶",
+      `年龄差=${big}−${small}=${(kk - 1) * m} 不变；${kk} 倍时弟弟=${(kk - 1) * m}÷(${kk}−1)=${m} 岁，即 ${t} 年前。`, "年龄差倍", null);
+  }
+
+  /* ============ 36. newops 定义新运算（五年级） ============ */
+  function qNewops() {
+    const ops = [
+      { sym: "a△b", desc: "2a+b", calc: (a, b) => 2 * a + b },
+      { sym: "a*b", desc: "a×b+a", calc: (a, b) => a * b + a },
+      { sym: "a⊙b", desc: "(a+b)÷2", calc: (a, b) => (a + b) / 2 },
+      { sym: "a◇b", desc: "a×b−a−b", calc: (a, b) => a * b - a - b },
+      { sym: "a★b", desc: "3a−2b", calc: (a, b) => 3 * a - 2 * b }
+    ];
+    const type = rnd(0, 5);
+    const params = () => { return [rnd(2, 9), rnd(1, 6)]; };
+    if (type === 0) {
+      const oa = ops[pick([0, 1, 2, 3, 4])], pa = params();
+      const symStr = oa.sym.replace("a", String(pa[0])).replace("b", String(pa[1]));
+      return Q(`规定 ${symStr} 表示 ${oa.desc}。计算 ${pa[0]} 和 ${pa[1]} 按此规则运算的结果是？`,
+        posOpts(oa.calc(pa[0], pa[1]), 30), "基础",
+        `按定义代入：结果=${oa.calc(pa[0], pa[1])}。`, "代入定义", null);
+    }
+    if (type === 1) {
+      const oa = ops[pick([0, 1, 4])], u = rnd(1, 9), b = rnd(1, 6), c = oa.calc(u, b);
+      return Q(`规定 ${oa.sym.replace("a", "x")} 表示 ${oa.desc}（左字母是第一个数）。若 x 与 ${b} 按此规则运算结果是 ${c}，则 x=？`,
+        posOpts(u, 10), "拔高",
+        `列方程：${c}=${u} 时的式子成立，代入选项检验：x=${u}。`, "解未知数", null);
+    }
+    if (type === 2) {
+      const oa = ops[pick([0, 1, 4])], pa = params();
+      const v1 = oa.calc(pa[0], pa[1]), v2 = oa.calc(pa[1], pa[0]);
+      return Q(`规定 ${oa.sym} 表示 ${oa.desc}。两个数按此规则运算后交换位置，结果会相同吗？`,
+        cats("不同，结果会变", ["相同，结果一样"], 2), "易错",
+        `${pa[0]} 在前=${v1}；${pa[1]} 在前=${v2}。${v1}≠${v2}，不满足交换律。`, "交换律判断", null);
+    }
+    if (type === 3) {
+      const oa = ops[pick([0, 1, 4])], pa = params();
+      const inner = oa.calc(pa[0], pa[1]), fin = oa.calc(inner, pa[1]);
+      return Q(`规定 ${oa.sym} 表示 ${oa.desc}。先用 ${pa[0]}、${pa[1]} 算一次，再用所得结果与 ${pa[1]} 算一次，最终结果是多少？`,
+        posOpts(fin, 30), "拔高",
+        `第一步=${inner}；第二步=${fin}。`, "两步运算", null);
+    }
+    if (type === 4) {
+      const a = rnd(2, 5), b = rnd(2, 5), ans = a + a * b;
+      return Q(`规定 a⊕b = a+b，a⊗b = a×b。计算 ${a}⊕(${a}⊗${b}) = ？`,
+        posOpts(ans, 30), "进阶",
+        `先算括号：${a}⊗${b}=${a}×${b}=${a * b}；再算 ${a}⊕${a * b}=${a}+${a * b}=${ans}。`, "运算顺序", null);
+    }
+    const a0 = rnd(2, 9); let b0 = a0 + pick([-3, -2, 2, 3]); if (b0 < 2) b0 = a0 + 3;
+    const diff = Math.abs(a0 - b0);
+    return Q(`规定 a△b = 2a+b，即 a△b = ${2 * a0}+${b0} 式样。${a0}△${b0} 与 ${b0}△${a0} 的结果相差多少？`,
+      posOpts(diff, 15), "易错",
+      `${a0}△${b0}=${2 * a0 + b0}；${b0}△${a0}=${2 * b0 + a0}；差=${diff}（恰为 |a−b|）。不满足交换律。`, "交换律判断", null);
+  }
+
+  /* ============ 37. congruence 同余与物不知数（五年级） ============ */
+  function qCongruence() {
+    const type = rnd(0, 9);
+    if (type === 0) {
+      const x0 = rnd(12, 104), r1 = x0 % 3, r2 = x0 % 5, r3 = x0 % 7;
+      return Q(`一个数除以 3 余 ${r1}，除以 5 余 ${r2}，除以 7 余 ${r3}。满足条件的正整数中，最小的是多少？`,
+        posOpts(x0, 40), "拔高",
+        `在 1~104 里同时满足三个余数条件的数只有一个（3×5×7=${105}），就是 ${x0}。可从除以 3 余 ${r1} 的数中逐个验。`, "物不知数", null);
+    }
+    if (type === 1) {
+      const P = pick([[3, 5], [3, 7], [3, 8], [4, 5], [4, 7], [4, 9], [5, 6], [5, 7], [5, 8], [7, 8]]), r = rnd(2, Math.min(P[0], P[1]) - 1), L = P[0] * P[1];
+      return Q(`一个数除以 ${P[0]} 余 ${r}，除以 ${P[1]} 余 ${r}。比 ${r} 大的最近的这个数是多少？`,
+        posOpts(L + r, 40), "进阶",
+        `两次余数相同：这个数减去 ${r} 是 ${P[0]}、${P[1]} 的公倍数，最小取 ${P[0]}×${P[1]}=${L}，故该数=${L}+${r}=${L + r}。`, "同余做公倍", null);
+    }
+    if (type === 2) {
+      const D = pick([[3, 4, 5], [2, 3, 4]]), L = lcm(lcm(D[0], D[1]), D[2]);
+      return Q(`一批苹果，除以 ${D[0]} 余 ${D[0] - 1}，除以 ${D[1]} 余 ${D[1] - 1}，除以 ${D[2]} 余 ${D[2] - 1}。最少多少个？`,
+        posOpts(L - 1, 30), "进阶",
+        `余数都比除数少 1，苹果数+1 是 ${D[0]}、${D[1]}、${D[2]} 的公倍数：${L}，苹果=${L}−1=${L - 1}。`, "差1型", null);
+    }
+    if (type === 3) {
+      const x = rnd(10, 200), m = rnd(3, 12), ans = x % m;
+      return Q(`${x} 除以 ${m} 的余数是多少？`, opts(ans, () => rnd(0, Math.max(4, m - 1))), "基础",
+        `${x}=${m}×${Math.floor(x / m)}+${ans}，余数是 ${ans}。`, "带余除法", null);
+    }
+    if (type === 4) {
+      const d = rnd(7, 15), r = rnd(1, d - 1);
+      let x = 100; while (x % d !== r) x++;
+      return Q(`一个数除以 ${d} 余 ${r}，最小的三位数是多少？`, posOpts(x, 30), "进阶",
+        `从 100 起逐个验：${x}÷${d}=${Math.floor(x / d)}…${x % d}，最小的是 ${x}。`, "带余除法", null);
+    }
+    if (type === 5) {
+      const m = pick([5, 6, 7, 8, 9, 11]), d = rnd(1, m - 1), A = m * rnd(2, 30) + d, B = A + m * rnd(1, 9);
+      return Q(`甲数除以 ${m} 余 ${d}，乙数比甲数大 ${B - A}。乙数除以 ${m} 的余数是多少？`,
+        opts(d, () => rnd(1, m - 1)), "易错",
+        `乙=甲+${B - A}，${B - A} 是 ${m} 的倍数，所以乙与甲同余，余数仍是 ${d}。`, "同余性质", null);
+    }
+    if (type === 6) {
+      const t0 = rnd(1, 7), n = rnd(1, 200), idx = (t0 - 1 + n) % 7, ans = "星期" + WEEK[idx];
+      return Q(`今天是星期${WEEK[t0 - 1]}，再过 ${n} 天是星期几？`,
+        cats(ans, WEEK.map(w => "星期" + w).filter(s => s !== ans), 4), "基础",
+        `一周 7 天循环：${n}÷7=${Math.floor(n / 7)}…${n % 7}，余 ${n % 7} 天，从星期${WEEK[t0 - 1]}往后数 ${n % 7} 天是${ans}。`, "周期与同余", null);
+    }
+    if (type === 7) {
+      const D = pick([[3, 4, 7], [5, 6, 7], [4, 5, 7]]), L = D[0] * D[1] * D[2], x0 = rnd(12, L - 1);
+      const r1 = x0 % D[0], r2 = x0 % D[1], r3 = x0 % D[2];
+      return Q(`一个数除以 ${D[0]} 余 ${r1}，除以 ${D[1]} 余 ${r2}，除以 ${D[2]} 余 ${r3}。这个数最小是多少？`,
+        posOpts(x0, 60), "拔高",
+        `在 1~${L - 1} 里满足三个条件的数唯一，就是 ${x0}。先锁定除以 ${D[0]} 余 ${r1} 的数再逐一验证另两个条件。`, "双条件排查", null);
+    }
+    if (type === 8) {
+      const d = pick([4, 5, 6, 7, 8, 9]), q = rnd(3, 20), r = rnd(1, d - 1), x = d * q + r;
+      return Q(`一个数除以 ${d}，商 ${q} 余 ${r}。这个数是多少？`, posOpts(x, 60), "基础",
+        `被除数=除数×商+余数=${d}×${q}+${r}=${x}。`, "带余除法", null);
+    }
+    return Q(`整数 a、b 除以 ${pick([5, 6, 7, 8, 9])} 的余数相同，那么 a−b 除以这个数余？`,
+      cats("0", ["1", "无法确定", "3"], 4), "基础",
+      "同余的两个数，差是除数的倍数，所以余 0。", "同余性质", null);
+  }
+
+  /* ============ 38. geocount 图形计数（六年级） ============ */
+  function qGeocount() {
+    const type = rnd(0, 8);
+    if (type === 0) {
+      const n = rnd(3, 12), ans = n * (n - 1) / 2;
+      return Q(`一条直线上有 ${n} 个点，任意两点连一条线段，一共连成多少条？`,
+        posOpts(ans, 15), "基础",
+        `以每个点为起点数：1+2+…+${n - 1}=${ans} 条。`, "数线段", null);
+    }
+    if (type === 1) {
+      const n = rnd(3, 10), ans = n * (n - 1) / 2;
+      return Q(`从一个顶点引出 ${n} 条射线，一共能组成多少个角（不重复数）？`,
+        posOpts(ans, 15), "基础",
+        `相邻的 ${n - 1} 个，隔一个合成的 ${n - 2} 个……共 1+2+…+${n - 1}=${ans} 个。`, "数角", null);
+    }
+    if (type === 2) {
+      const m = rnd(1, 4), n = rnd(2, 5), a = m * (m + 1) / 2, b = n * (n + 1) / 2, ans = a * b;
+      return Q(`由 ${m} 行 ${n} 列小方格拼成的网格中，一共能数出多少个矩形（含大矩形）？`,
+        posOpts(ans, 20), "进阶",
+        `横 ${m + 1} 条线取两条：${a} 对；竖 ${n + 1} 条线取两条：${b} 对；共 ${a}×${b}=${ans} 个。`, "数矩形", null);
+    }
+    if (type === 3) {
+      const n = rnd(4, 9), ans = n * (n - 3) / 2;
+      return Q(`一个 ${n} 边形有多少条对角线？`, posOpts(ans, 15), "基础",
+        `每个顶点连 ${n - 3} 条（除去自身和两邻居），共 ${n}×${n - 3}÷2=${ans} 条。`, "对角线", null);
+    }
+    if (type === 4) {
+      const n = rnd(4, 12), ans = n * (n - 1) / 2;
+      return Q(`${n} 个小朋友两两握手一次，一共握手多少次？`, posOpts(ans, 20), "易错",
+        `与数线段同型：第 1 人握 ${n - 1} 次、第 2 人再握 ${n - 2} 次……共 ${ans} 次。`, "组合计数", null);
+    }
+    if (type === 5) {
+      const k = rnd(2, 8), ans = k * (k + 1) / 2;
+      return Q(`从同一顶点出发把一个大三角形分成 ${k} 个小三角形（底边不过交点）。图中共有多少个三角形（含大的）？`,
+        posOpts(ans, 15), "进阶",
+        `单个 ${k} 个、相邻 2 个合成 ${k - 1} 个……共 1+2+…+${k}=${ans} 个。`, "数三角形", null);
+    }
+    if (type === 6) {
+      const m = rnd(2, 4), sq = [5, 14, 30], ans = sq[m - 2];
+      return Q(`${m}×${m} 的方格里，大大小小的正方形一共有多少个？`, posOpts(ans, 15), "进阶",
+        `按边长分类：${Array.from({ length: m }, (_, i) => (m - i) * (m - i)).join("+")}=${ans} 个。`, "数正方形", null);
+    }
+    if (type === 7) {
+      const m = rnd(2, 8), ans = m * (m + 1) / 2;
+      return Q(`把一张长方形纸剪 ${m - 1} 刀，同一方向切成 ${m} 条。图中能数出的长方形（含原先的大长方形）共有多少个？`,
+        posOpts(ans, 15), "进阶",
+        `左右两条竖边固定，横向 ${m + 1} 条线任取两条：${m}×${m + 1}÷2=${ans} 个。`, "数长方形", null);
+    }
+    const n = rnd(3, 10), ans = n * (n - 1) / 2;
+    return Q(`圆周上有 ${n} 个点，两两连一条弦，一共连多少条？`, posOpts(ans, 15), "基础",
+      `任两点都能连：1+2+…+${n - 1}=${ans} 条。`, "数线段", null);
+  }
+
   const GEN = {
     count: qCount, addsub: qAddSub, multi: qMulti, divide: qDivide, fourops: qFourOps,
     fraction: qFraction, decimal: qDecimal, percent: qPercent, ratio: qRatio, trip: qTrip,
@@ -1876,7 +2502,10 @@
     speedcalc: qSpeedCalc, arithseq: qArithSeq, parity: qParity, divisibility: qDivisibility,
     remainder: qRemainder, prime: qPrime, boat: qBoat, circle_track: qTrack,
     perim: qPerim, area_equal: qAreaEqual, pigeon: qPigeon, inclusion: qInclusion,
-    cowgrass: qCowGrass, concentration: qConcentration
+    cowgrass: qCowGrass, concentration: qConcentration,
+    frac1: qFrac1, factorlcm: qFactorlcm, simpleeq: qSimpleEq, polyarea: qPolyarea,
+    cuboid: qCuboid, revert: qRevert, age: qAge, newops: qNewops,
+    congruence: qCongruence, geocount: qGeocount
   };
   if (window.TECHNIQUES) {
     window.TECHNIQUES.forEach(t => {
